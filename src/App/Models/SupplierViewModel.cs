@@ -14,11 +14,13 @@ namespace App.Models
         [StringLength(100, ErrorMessage = "{0} needs to have between {2} and {1} characters", MinimumLength = 2)]
         public string Name { get; set; }
 
+        [DisplayName("Document number")]
         [Required(ErrorMessage = "{0} is required")]
         [StringLength(14, ErrorMessage = "{0} needs to have between {2} and {1} characters", MinimumLength = 2)]
         public string DocumentNumber { get; set; }
 
         [DisplayName("Type")]
+        [Required(ErrorMessage = "{0} is required")]
         public int SupplierType { get; set; }
 
         public AddressViewModel Address { get; set; }

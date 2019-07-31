@@ -10,6 +10,10 @@ namespace App.Models
         [Key]
         public Guid Id { get; set; }
 
+        [DisplayName("Supplier")]
+        [Required(ErrorMessage = "{0} is required")]
+        public Guid SupplierId { get; set; }
+
         [Required(ErrorMessage = "{0} is required")]
         [StringLength(200, ErrorMessage = "{0} needs to have between {2} and {1} characters", MinimumLength = 2)]
         public string Name { get; set; }
@@ -18,7 +22,7 @@ namespace App.Models
         [StringLength(1000, ErrorMessage = "{0} needs to have between {2} and {1} characters")]
         public string Description { get; set; }
 
-        public IFormFile ImageUpload { get; set; }
+        //public IFormFile ImageUpload { get; set; }
 
         public string Image { get; set; }
 
