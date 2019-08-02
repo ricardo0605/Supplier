@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace App.Models
+namespace App.ViewModels
 {
     public class ProductViewModel
     {
@@ -22,7 +23,7 @@ namespace App.Models
         [StringLength(1000, ErrorMessage = "{0} needs to have between {2} and {1} characters")]
         public string Description { get; set; }
 
-        //public IFormFile ImageUpload { get; set; }
+        public IFormFile ImageUpload { get; set; }
 
         public string Image { get; set; }
 
@@ -36,5 +37,7 @@ namespace App.Models
         public bool Active { get; set; }
 
         public SupplierViewModel Supplier { get; set; }
+
+        public IEnumerable<SupplierViewModel> Suppliers { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿using App.Models;
+﻿using App.ViewModels;
 using AutoMapper;
 using Business.Models;
 

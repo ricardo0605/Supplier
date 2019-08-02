@@ -1,4 +1,4 @@
-﻿using App.Models;
+﻿using App.ViewModels;
 using AutoMapper;
 using Business.Interfaces;
 using Business.Models;
@@ -15,7 +15,7 @@ namespace App.Controllers
         private readonly IMapper _mapper;
 
         public SuppliersController(ISupplierRepository repository,
-            IMapper mapper)
+                                   IMapper mapper)
         {
             _repository = repository;
             _mapper = mapper;
