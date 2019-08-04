@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace App.ViewModels
@@ -17,6 +18,7 @@ namespace App.ViewModels
         [StringLength(50, ErrorMessage = "{0} needs to have between {2} and {1} characters", MinimumLength = 2)]
         public string Number { get; set; }
 
+        [DisplayName("Aditional Info")]
         [StringLength(250, ErrorMessage = "{0} can't have more than {1} characters", MinimumLength = 2)]
         public string AditionalInfo { get; set; }
 

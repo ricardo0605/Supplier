@@ -64,7 +64,7 @@ namespace App.Controllers
         // GET: Suppliers/Edit/5
         public async Task<IActionResult> Edit(Guid id)
         {
-            var supplierViewModel = await _repository.GetSupplierAddressAndProducts(id);
+            var supplierViewModel = _mapper.Map<SupplierViewModel>(await _repository.GetSupplierAddressAndProducts(id));
 
             if (supplierViewModel == null)
                 return NotFound();
@@ -95,7 +95,7 @@ namespace App.Controllers
         // GET: Suppliers/Delete/5
         public async Task<IActionResult> Delete(Guid id)
         {
-            var supplierViewModel = await _repository.GetByIdAsync(id);
+            var supplierViewModel = _mapper.Map<SupplierViewModel>(await _repository.GetByIdAsync(id));
 
             if (supplierViewModel == null)
                 return NotFound();

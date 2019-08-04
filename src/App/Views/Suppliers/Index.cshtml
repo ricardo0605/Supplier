@@ -1,16 +1,12 @@
 ﻿@model IEnumerable<App.ViewModels.SupplierViewModel>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Suppliers";
 }
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
+<h1 style="padding-top:50px;">@ViewData["Title"]</h1>
+<table class="table table-hover">
+    <thead class="thead-dark">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Name)
@@ -19,35 +15,34 @@
                 @Html.DisplayNameFor(model => model.DocumentNumber)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SupplierType)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Activo)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DocumentNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SupplierType)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Activo)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DocumentNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Activo)
+                </td>
+                <td class="text-right">
+                    <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id"><span class="fa fa-search" title="Details"></span></a>
+                    <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.Id"><span class="fa fa-pencil-alt" title="Edit"></span></a>
+                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id"><span class="fa fa-trash" title="Delete"></span></a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+<hr />
+<p>
+    <a class="btn btn-info float-right" asp-action="Create">Create New</a>
+</p>

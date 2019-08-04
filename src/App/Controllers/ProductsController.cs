@@ -2,9 +2,11 @@
 using AutoMapper;
 using Business.Interfaces;
 using Business.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace App.Controllers
@@ -59,16 +61,23 @@ namespace App.Controllers
             if (!ModelState.IsValid)
                 return View(productViewModel);
 
+            var imageNamePrefix = $"{Guid.NewGuid()}_";
+
+            if(! await UploadFile(productViewModel.ImageUpload, imageNamePrefix))
+                return View(productViewModel);
+
+            productViewModel.Image = imageNamePrefix + productViewModel.ImageUpload.FileName;
+
             await _productRepository.AddAsync(_mapper.Map<Product>(productViewModel));
 
-            return View(productViewModel);
+            return RedirectToAction(nameof(Index));
 
         }
 
         // GET: Products/Edit/5
         public async Task<IActionResult> Edit(Guid id)
         {
-            var productViewModel = await _productRepository.GetProduct(id);
+            var productViewModel = _mapper.Map<ProductViewModel>(await _productRepository.GetProduct(id));
 
             if (productViewModel == null)
                 return NotFound();
@@ -95,12 +104,12 @@ namespace App.Controllers
         // GET: Products/Delete/5
         public async Task<IActionResult> Delete(Guid id)
         {
-            var product = await _productRepository.GetByIdAsync(id);
+            var productViewModel = _mapper.Map<ProductViewModel>(await _productRepository.GetByIdAsync(id));
 
-            if (product == null)
+            if (productViewModel == null)
                 return NotFound();
 
-            return View(product);
+            return View(productViewModel);
         }
 
         // POST: Products/Delete/5
@@ -131,6 +140,22 @@ namespace App.Controllers
             product.Suppliers = _mapper.Map<IEnumerable<SupplierViewModel>>(await _supplierRepository.GetAllAsync());
 
             return product;
+        }
+
+        private async Task<bool> UploadFile(IFormFile file, string imageNamePrefix)
+        {
+            if (file.Length <= 0)
+                return false;
+
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", imageNamePrefix + file.FileName);
+
+            if (System.IO.File.Exists(path))
+                ModelState.AddModelError(string.Empty, "File already exists.");
+
+            using (var stream = new FileStream(path, FileMode.Create))
+                await file.CopyToAsync(stream);
+
+            return true;
         }
     }
 }

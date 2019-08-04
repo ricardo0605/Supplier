@@ -23,6 +23,7 @@ namespace App.ViewModels
         [StringLength(1000, ErrorMessage = "{0} needs to have between {2} and {1} characters")]
         public string Description { get; set; }
 
+        [DisplayName("Image Upload")]
         public IFormFile ImageUpload { get; set; }
 
         public string Image { get; set; }
