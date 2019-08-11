@@ -63,7 +63,7 @@ namespace App.Controllers
 
             var imageNamePrefix = $"{Guid.NewGuid()}_";
 
-            if(! await UploadFile(productViewModel.ImageUpload, imageNamePrefix))
+            if (!await UploadFile(productViewModel.ImageUpload, imageNamePrefix))
                 return View(productViewModel);
 
             productViewModel.Image = imageNamePrefix + productViewModel.ImageUpload.FileName;
@@ -93,10 +93,29 @@ namespace App.Controllers
             if (id != productViewModel.Id)
                 return NotFound();
 
-            if (!ModelState.IsValid)
-                return RedirectToAction(nameof(Index));
+            var updatedProduct = await GetProductById(productViewModel.Id);
+            productViewModel.Supplier = updatedProduct.Supplier;
+            productViewModel.Image = updatedProduct.Image;
 
-            await _productRepository.UpdateAsync(_mapper.Map<Product>(productViewModel));
+            if (!ModelState.IsValid)
+                return View(productViewModel);
+
+            if (productViewModel.ImageUpload != null)
+            {
+                var imageNamePrefix = $"{Guid.NewGuid()}_";
+
+                if (!await UploadFile(productViewModel.ImageUpload, imageNamePrefix))
+                    return View(productViewModel);
+
+                updatedProduct.Image = imageNamePrefix + productViewModel.ImageUpload.FileName;
+            }
+
+            updatedProduct.Name = productViewModel.Name;
+            updatedProduct.Description = productViewModel.Description;
+            updatedProduct.Value = productViewModel.Value;
+            updatedProduct.Active = productViewModel.Active;
+
+            await _productRepository.UpdateAsync(_mapper.Map<Product>(updatedProduct));
 
             return RedirectToAction(nameof(Index));
         }

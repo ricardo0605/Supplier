@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using App.ViewModels;
 
 namespace App.Data
 {
@@ -10,6 +9,5 @@ namespace App.Data
             : base(options)
         {
         }
-        public DbSet<App.ViewModels.AddressViewModel> AddressViewModel { get; set; }
     }
 }
