@@ -26,7 +26,7 @@ namespace App.ViewModels
         public AddressViewModel Address { get; set; }
 
         [DisplayName("Is Active?")]
-        public bool Activo { get; set; }
+        public bool IsActive { get; set; }
 
         public IEnumerable<ProductViewModel> Products { get; set; }
     }

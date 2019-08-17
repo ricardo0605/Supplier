@@ -30,7 +30,7 @@ namespace App.Controllers
         // GET: Suppliers/Details/5
         public async Task<IActionResult> Details(Guid id)
         {
-            var supplierViewModel = _mapper.Map<SupplierViewModel>(await _repository.GetByIdAsync(id));
+            var supplierViewModel = _mapper.Map<SupplierViewModel>(await _repository.GetSupplierAddressAndProducts(id));
 
             if (supplierViewModel == null)
                 return NotFound();
@@ -95,7 +95,7 @@ namespace App.Controllers
         // GET: Suppliers/Delete/5
         public async Task<IActionResult> Delete(Guid id)
         {
-            var supplierViewModel = _mapper.Map<SupplierViewModel>(await _repository.GetByIdAsync(id));
+            var supplierViewModel = _mapper.Map<SupplierViewModel>(await _repository.GetSupplierAddressAndProducts(id));
 
             if (supplierViewModel == null)
                 return NotFound();

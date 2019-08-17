@@ -1,4 +1,5 @@
-﻿@model IEnumerable<App.ViewModels.SupplierViewModel>
+﻿@using App.Extensions;
+@model IEnumerable<App.ViewModels.SupplierViewModel>
 
 @{
     ViewData["Title"] = "Suppliers";
@@ -15,7 +16,7 @@
                 @Html.DisplayNameFor(model => model.DocumentNumber)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Activo)
+                @Html.DisplayNameFor(model => model.IsActive)
             </th>
             <th></th>
         </tr>
@@ -28,10 +29,10 @@
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.DocumentNumber)
+                    @this.DocumentFormat(item.SupplierType, item.DocumentNumber)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Activo)
+                    @Html.DisplayFor(modelItem => item.IsActive)
                 </td>
                 <td class="text-right">
                     <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id"><span class="fa fa-search" title="Details"></span></a>

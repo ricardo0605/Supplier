@@ -8,7 +8,7 @@ namespace Business.Models
         public string DocumentNumber { get; set; }
         public SupplierType SupplierType { get; set; }
         public Address Address { get; set; }
-        public bool Activo { get; set; }
+        public bool IsActive { get; set; }
 
         /*EF Relations */
         public IEnumerable<Product> Products { get; set; }
