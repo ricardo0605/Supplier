@@ -6,7 +6,7 @@ namespace Data.Context
 {
     public class SupplierContext : DbContext
     {
-        public SupplierContext(DbContextOptions options)
+        public SupplierContext(DbContextOptions<SupplierContext> options)
             : base(options)
         {
         }

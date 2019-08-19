@@ -5,11 +5,9 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>@ViewData["Title"]</h1>
-
+<h4 style="padding-top:50px;">@ViewData["Title"]</h4>
+<hr />
 <div>
-    <h4>Read-only information</h4>
-    <hr />
     <dl class="row">
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Name)
