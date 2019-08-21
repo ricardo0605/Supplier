@@ -12,15 +12,16 @@ namespace App.Controllers
     public class SuppliersController : BaseController
     {
         private readonly ISupplierRepository _supplierRepository;
-        private readonly IAddressRepository _addressRepository;
+        private readonly ISupplierService _supplierService;
         private readonly IMapper _mapper;
 
         public SuppliersController(ISupplierRepository supplierRepository,
-                                   IAddressRepository addressRepository,
-                                   IMapper mapper)
+                                   ISupplierService supplierService,
+                                   INotificator notificator,
+                                   IMapper mapper) : base(notificator)
         {
             _supplierRepository = supplierRepository;
-            _addressRepository = addressRepository;
+            _supplierService = supplierService;
             _mapper = mapper;
         }
 
@@ -59,7 +60,10 @@ namespace App.Controllers
 
             var supplier = _mapper.Map<Supplier>(supplierViewModel);
 
-            await _supplierRepository.AddAsync(supplier);
+            await _supplierService.AddAsync(supplier);
+
+            if(!OperationIsValid())
+                return View(supplierViewModel);
 
             return RedirectToAction(nameof(Index));
         }
@@ -90,7 +94,10 @@ namespace App.Controllers
 
             var supplier = _mapper.Map<Supplier>(supplierViewModel);
 
-            await _supplierRepository.UpdateAsync(supplier);
+            await _supplierService.UpdateAsync(supplier);
+
+            if (!OperationIsValid())
+                return View(supplierViewModel);
 
             return RedirectToAction(nameof(Index));
         }
@@ -116,7 +123,12 @@ namespace App.Controllers
             if (supplierViewModel == null)
                 return NotFound();
 
-            await _supplierRepository.RemoveAsync(id);
+            await _supplierService.RemoveAsync(id);
+
+            if (!OperationIsValid())
+                return View(supplierViewModel);
+
+            ViewData["Success"] = $"Supplier {supplierViewModel.Name} successfully excluded.";
 
             return RedirectToAction(nameof(Index));
         }
@@ -153,7 +165,10 @@ namespace App.Controllers
             if (!ModelState.IsValid)
                 return PartialView("_updateAddress", supplierViewModel);
 
-            await _addressRepository.UpdateAsync(_mapper.Map<Address>(supplierViewModel.Address));
+            await _supplierService.UpdateAddressAsync(_mapper.Map<Address>(supplierViewModel.Address));
+
+            if (!OperationIsValid())
+                return View(supplierViewModel);
 
             var url = Url.Action("GetAddress", "Suppliers", new { id = supplierViewModel.Address.SupplierId });
             return Json(new { success = true, url });

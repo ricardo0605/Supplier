@@ -15,14 +15,18 @@ namespace App.Controllers
     {
         private readonly IProductRepository _productRepository;
         private readonly ISupplierRepository _supplierRepository;
+        private readonly IProductService _productService;
         private readonly IMapper _mapper;
 
         public ProductsController(IProductRepository repository,
                                   ISupplierRepository supplierRepository,
-                                  IMapper mapper)
+                                  IProductService productService,
+                                  INotificator notificator,
+                                  IMapper mapper) : base(notificator)
         {
             _productRepository = repository;
             _supplierRepository = supplierRepository;
+            _productService = productService;
             _mapper = mapper;
         }
 
@@ -68,7 +72,12 @@ namespace App.Controllers
 
             productViewModel.Image = imageNamePrefix + productViewModel.ImageUpload.FileName;
 
-            await _productRepository.AddAsync(_mapper.Map<Product>(productViewModel));
+            await _productService.AddAsync(_mapper.Map<Product>(productViewModel));
+
+            if (!OperationIsValid())
+            {
+                return View(productViewModel);
+            }
 
             return RedirectToAction(nameof(Index));
 
@@ -115,7 +124,12 @@ namespace App.Controllers
             updatedProduct.Value = productViewModel.Value;
             updatedProduct.Active = productViewModel.Active;
 
-            await _productRepository.UpdateAsync(_mapper.Map<Product>(updatedProduct));
+            await _productService.UpdateAsync(_mapper.Map<Product>(updatedProduct));
+
+            if (!OperationIsValid())
+            {
+                return View(productViewModel);
+            }
 
             return RedirectToAction(nameof(Index));
         }
@@ -141,7 +155,14 @@ namespace App.Controllers
             if (product == null)
                 return NotFound();
 
-            await _productRepository.RemoveAsync(id);
+            await _productService.RemoveAsync(id);
+
+            if (!OperationIsValid())
+            {
+                return View(product);
+            }
+
+            ViewData["Success"] = $"Product {product.Name} successfully excluded.";
 
             return RedirectToAction(nameof(Index));
         }
