@@ -39,8 +39,13 @@ namespace App
 
             services.AddAutoMapper(typeof(Startup));
 
-            services.AddMvc()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc(c =>
+            {
+                // DRY principle: 
+                // add this configuration here and remove the attribute [ValidateAntiForgeryToken]
+                // from controllers action.
+                c.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddDependencyInjectionConfiguration();
         }

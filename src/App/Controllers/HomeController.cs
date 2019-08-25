@@ -24,19 +24,19 @@ namespace App.Controllers
             {
                 modelError.Message = "You are not allowed.";
                 modelError.Title = "Access denied.";
-                modelError.ErrorCode = id;
+                modelError.ErrorCode = id.ToString();
             }
             else if (id == 404)
             {
                 modelError.Message = "This page doesn't exists.";
                 modelError.Title = "Page not  found.";
-                modelError.ErrorCode = id;
+                modelError.ErrorCode = id.ToString();
             }
             else if (id == 500)
             {
                 modelError.Message = "Something goes wrong. ";
                 modelError.Title = "An error occour.";
-                modelError.ErrorCode = id;
+                modelError.ErrorCode = id.ToString();
             }
             else
             {

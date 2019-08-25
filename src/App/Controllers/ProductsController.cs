@@ -64,7 +64,6 @@ namespace App.Controllers
         // POST: Products/Create
         [ClaimsAuthorize("Products", "Create")]
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(ProductViewModel productViewModel)
         {
             productViewModel = await FullfillProductSuppliers(productViewModel);
@@ -105,7 +104,6 @@ namespace App.Controllers
         // POST: Products/Edit/5
         [ClaimsAuthorize("Products", "Edit")]
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, ProductViewModel productViewModel)
         {
             if (id != productViewModel.Id)
@@ -158,7 +156,6 @@ namespace App.Controllers
         // POST: Products/Delete/5
         [ClaimsAuthorize("Products", "Delete")]
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var product = await _productRepository.GetByIdAsync(id);

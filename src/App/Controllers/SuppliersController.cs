@@ -58,7 +58,6 @@ namespace App.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [ClaimsAuthorize("Suppliers", "Create")]
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(SupplierViewModel supplierViewModel)
         {
             if (!ModelState.IsValid)
@@ -91,7 +90,6 @@ namespace App.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [ClaimsAuthorize("Suppliers", "Edit")]
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, SupplierViewModel supplierViewModel)
         {
             if (id != supplierViewModel.Id)
@@ -125,7 +123,6 @@ namespace App.Controllers
         // POST: Suppliers/Delete/5
         [ClaimsAuthorize("Suppliers", "Delete")]
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             var supplierViewModel = await _supplierRepository.GetByIdAsync(id);
@@ -171,7 +168,6 @@ namespace App.Controllers
 
         [ClaimsAuthorize("Suppliers", "Edit")]
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateAddress(SupplierViewModel supplierViewModel)
         {
             ModelState.Remove("Name");
