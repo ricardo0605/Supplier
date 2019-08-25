@@ -1,7 +1,9 @@
-﻿using App.ViewModels;
+﻿using App.Extensions;
+using App.ViewModels;
 using AutoMapper;
 using Business.Interfaces;
 using Business.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -26,12 +28,14 @@ namespace App.Controllers
         }
 
         // GET: Suppliers
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             return View(_mapper.Map<IEnumerable<SupplierViewModel>>(await _supplierRepository.GetAllAsync()));
         }
 
         // GET: Suppliers/Details/5
+        [AllowAnonymous]
         public async Task<IActionResult> Details(Guid id)
         {
             var supplierViewModel = _mapper.Map<SupplierViewModel>(await _supplierRepository.GetSupplierAddressAndProducts(id));
@@ -43,6 +47,7 @@ namespace App.Controllers
         }
 
         // GET: Suppliers/Create
+        [ClaimsAuthorize("Suppliers", "Create")]
         public IActionResult Create()
         {
             return View();
@@ -51,6 +56,7 @@ namespace App.Controllers
         // POST: Suppliers/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [ClaimsAuthorize("Suppliers", "Create")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(SupplierViewModel supplierViewModel)
@@ -68,6 +74,7 @@ namespace App.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [ClaimsAuthorize("Suppliers", "Edit")]
         // GET: Suppliers/Edit/5
         public async Task<IActionResult> Edit(Guid id)
         {
@@ -82,6 +89,7 @@ namespace App.Controllers
         // POST: Suppliers/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [ClaimsAuthorize("Suppliers", "Edit")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, SupplierViewModel supplierViewModel)
@@ -103,6 +111,7 @@ namespace App.Controllers
         }
 
         // GET: Suppliers/Delete/5
+        [ClaimsAuthorize("Suppliers", "Delete")]
         public async Task<IActionResult> Delete(Guid id)
         {
             var supplierViewModel = _mapper.Map<SupplierViewModel>(await _supplierRepository.GetSupplierAddressAndProducts(id));
@@ -114,6 +123,7 @@ namespace App.Controllers
         }
 
         // POST: Suppliers/Delete/5
+        [ClaimsAuthorize("Suppliers", "Delete")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
@@ -133,6 +143,7 @@ namespace App.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [ClaimsAuthorize("Suppliers", "Edit")]
         public async Task<IActionResult> UpdateAddress(Guid id)
         {
             var supplierViewModel = _mapper.Map<SupplierViewModel>(await _supplierRepository.GetSupplierAddressAndProducts(id));
@@ -145,6 +156,9 @@ namespace App.Controllers
             return PartialView("_UpdateAddress", new SupplierViewModel { Address = supplierViewModel.Address });
         }
 
+
+        [AllowAnonymous]
+
         public async Task<IActionResult> GetAddress(Guid id)
         {
             var supplier = _mapper.Map<SupplierViewModel>(await _supplierRepository.GetSupplierAddress(id));
@@ -155,6 +169,7 @@ namespace App.Controllers
             return PartialView("_DetailsAddress", supplier);
         }
 
+        [ClaimsAuthorize("Suppliers", "Edit")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> UpdateAddress(SupplierViewModel supplierViewModel)

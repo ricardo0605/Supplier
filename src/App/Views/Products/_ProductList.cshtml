@@ -1,4 +1,4 @@
-﻿@model IEnumerable<App.ViewModels.ProductViewModel>
+﻿ @model IEnumerable<App.ViewModels.ProductViewModel>
 
 <table class="table table-hover">
     <thead class="thead-dark">
@@ -40,8 +40,8 @@
                 </td>
                 <td class="text-right">
                     <a class="btn btn-info" asp-controller="Products" asp-action="Details" asp-route-id="@item.Id"><span class="fa fa-search" title="Details"></span></a>
-                    <a class="btn btn-warning" asp-controller="Products" asp-action="Edit" asp-route-id="@item.Id"><span class="fa fa-pencil-alt" title="Edit"></span></a>
-                    <a class="btn btn-danger" asp-controller="Products" asp-action="Delete" asp-route-id="@item.Id"><span class="fa fa-trash" title="Delete"></span></a>
+                    <a class="btn btn-warning" asp-controller="Products" asp-action="Edit" supress-by-claim-name="Products" supress-by-claim-value="Edit" asp-route-id="@item.Id"><span class="fa fa-pencil-alt" title="Edit"></span></a>
+                    <a class="btn btn-danger" asp-controller="Products" asp-action="Delete" supress-by-claim-name="Products" supress-by-claim-value="Delete" asp-route-id="@item.Id"><span class="fa fa-trash" title="Delete"></span></a>
                 </td>
             </tr>
         }

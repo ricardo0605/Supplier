@@ -38,14 +38,14 @@
                 </td>
                 <td class="text-right">
                     <a class="btn btn-info" asp-action="Details" asp-route-id="@item.Id"><span class="fa fa-search" title="Details"></span></a>
-                    <a class="btn btn-warning" asp-action="Edit" asp-route-id="@item.Id"><span class="fa fa-pencil-alt" title="Edit"></span></a>
-                    <a class="btn btn-danger" asp-action="Delete" asp-route-id="@item.Id"><span class="fa fa-trash" title="Delete"></span></a>
+                    <a class="btn btn-warning" disable-by-claim-name="Suppliers" disable-by-claim-value="Edit" asp-action="Edit" asp-route-id="@item.Id"><span class="fa fa-pencil-alt" title="Edit"></span></a>
+                    <a class="btn btn-danger" disable-by-claim-name="Suppliers" disable-by-claim-value="Delete" asp-action="Delete" asp-route-id="@item.Id"><span class="fa fa-trash" title="Delete"></span></a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
 <hr />
-<p>
+<p supress-by-claim-name="Suppliers" supress-by-claim-value="Create" >
     <a class="btn btn-info float-right" asp-action="Create">Create New</a>
 </p>

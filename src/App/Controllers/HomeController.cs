@@ -1,6 +1,5 @@
 ﻿using App.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
 
 namespace App.Controllers
 {
@@ -16,10 +15,35 @@ namespace App.Controllers
             return View();
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        [Route("erro/{id:length(3,3)}")]
+        public IActionResult Errors(int id)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            var modelError = new ErrorViewModel();
+
+            if (id == 403)
+            {
+                modelError.Message = "You are not allowed.";
+                modelError.Title = "Access denied.";
+                modelError.ErrorCode = id;
+            }
+            else if (id == 404)
+            {
+                modelError.Message = "This page doesn't exists.";
+                modelError.Title = "Page not  found.";
+                modelError.ErrorCode = id;
+            }
+            else if (id == 500)
+            {
+                modelError.Message = "Something goes wrong. ";
+                modelError.Title = "An error occour.";
+                modelError.ErrorCode = id;
+            }
+            else
+            {
+                return StatusCode(404);
+            }
+
+            return View("Error", modelError);
         }
     }
 }
